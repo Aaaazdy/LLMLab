@@ -15,14 +15,14 @@ app.add_middleware(
 )
 
 @app.get("/")
-def root():
+async def root():
     return {"message": "LLM server is running."}
 
 @app.post("/query")
 async def query(request: Request):
     data = await request.json()
     prompt = data.get("prompt", "")
-    max_tokens = data.get("max_length", 256)
+    max_tokens = data.get("max_length", 1024)
 
     def generate_stream():
         for token in llm.stream_query(prompt, max_tokens):

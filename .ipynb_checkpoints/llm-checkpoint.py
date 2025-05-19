@@ -21,7 +21,7 @@ class LLMHandler:
         self.load_model(model_key)
 
     def load_model(self, key):
-        # 清理旧模型和显存
+        # clear old cache and memory
         if self.model:
             del self.model
         if self.tokenizer:
@@ -31,10 +31,9 @@ class LLMHandler:
         model_id, model_name = LLMModels.get(key, LLMModels["1"])
         print(f"\n[INFO] Loading model [{model_name}] ...")
 
-        # 加载 tokenizer
+        # load tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
 
-        # 修复某些模型没有 pad_token 的问题
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
 
@@ -85,7 +84,7 @@ def print_model_menu():
     print("Type in the number of the model (e.g. 1)")
 
 if __name__ == "__main__":
-    llm = LLMHandler(model_key="1")  # 默认使用 Yi
+    llm = LLMHandler(model_key="1") # defult using model 1
 
     print(f"\nVirtual Assistant (Model: [{llm.model_name}]) ready. Type a question ('switch' to change model, 'exit' to quit).")
 
